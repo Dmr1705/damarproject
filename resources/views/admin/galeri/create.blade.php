@@ -67,7 +67,7 @@
                 <div>
                     <label class="block text-xs font-black uppercase tracking-wider text-slate-500 mb-2">Pilih File Foto <span class="text-red-500">*</span></label>
                     
-                    <div class="flex flex-col items-center justify-center border-2 border-dashed @error('photo') border-red-300 bg-red-50/30 @else border-slate-200 hover:border-[#087A4B] bg-slate-50/50 @enderror rounded-3xl p-6 transition-all group relative cursor-pointer" onclick="document.getElementById('photo-input').click()">
+                    <div id="photo-dropzone" class="flex flex-col items-center justify-center border-2 border-dashed @error('photo') border-red-300 bg-red-50/30 @else border-slate-200 hover:border-[#087A4B] bg-slate-50/50 @enderror rounded-3xl p-6 transition-all group relative cursor-pointer" onclick="document.getElementById('photo-input').click()">
                         
                         <!-- Preview Container -->
                         <div id="preview-container" class="hidden mb-4 w-full flex flex-col items-center">
@@ -110,7 +110,7 @@
         function previewImage(event) {
             const file = event.target.files[0];
             if (file) {
-                const reader = new Bum.FileReader();
+                const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('image-preview').src = e.target.result;
                     document.getElementById('file-name').textContent = file.name;
@@ -120,6 +120,28 @@
                 reader.readAsDataURL(file);
             }
         }
+
+        const photoDropzone = document.getElementById('photo-dropzone');
+        const photoInput = document.getElementById('photo-input');
+
+        photoDropzone.addEventListener('dragover', function(event) {
+            event.preventDefault();
+            photoDropzone.classList.add('border-[#087A4B]');
+        });
+
+        photoDropzone.addEventListener('dragleave', function() {
+            photoDropzone.classList.remove('border-[#087A4B]');
+        });
+
+        photoDropzone.addEventListener('drop', function(event) {
+            event.preventDefault();
+            photoDropzone.classList.remove('border-[#087A4B]');
+
+            if (event.dataTransfer.files.length > 0) {
+                photoInput.files = event.dataTransfer.files;
+                previewImage({ target: photoInput });
+            }
+        });
     </script>
     @endpush
 @endsection

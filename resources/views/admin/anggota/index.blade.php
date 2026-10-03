@@ -13,6 +13,10 @@
                 <p class="text-sm text-slate-500 mt-1">Kelola data seluruh anggota organisasi berdasarkan Badan Otonom.</p>
             </div>
             <div class="flex items-center gap-3">
+                <a href="{{ route('admin.anggota.cards') }}" class="inline-flex items-center gap-2 px-5 py-3 bg-white hover:bg-emerald-50 text-[#087A4B] border border-emerald-200 font-bold text-xs rounded-2xl shadow-sm transition-all active:scale-95">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 002 2z"></path></svg>
+                    Cetak Semua Kartu
+                </a>
                 <a href="{{ route('admin.anggota.create') }}" class="inline-flex items-center gap-2 px-5 py-3 bg-[#087A4B] hover:bg-emerald-700 text-white font-bold text-xs rounded-2xl shadow-md shadow-emerald-500/20 transition-all active:scale-95">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
                     Tambah Anggota
@@ -95,14 +99,14 @@
                                 <td class="px-6 py-4">
                                     <div class="space-y-1.5">
                                         <span class="inline-flex items-center px-2.5 py-1 bg-emerald-50 text-[#087A4B] rounded-lg text-xs font-bold border border-emerald-100/60 shadow-sm">
-                                            {{ $anggota->role ?? '-' }}
+                                            {{ $anggota->position ?? '-' }}
                                         </span>
                                         <div class="flex items-center gap-1.5 text-xs text-slate-500 font-semibold pl-0.5">
                                             <svg class="w-3.5 h-3.5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                             </svg>
-                                            <span>{{ $anggota->wilayah ?: 'Wilayah Pusat / Umum' }}</span>
+                                            <span>{{ $anggota->region ?: 'Wilayah Pusat / Umum' }}</span>
                                         </div>
                                     </div>
                                 </td>
@@ -131,6 +135,7 @@
                                 <!-- Tombol Aksi -->
                                 <td class="px-6 py-4 whitespace-nowrap text-right">
                                     <div class="flex items-center justify-end gap-2">
+                                        <a href="{{ route('admin.anggota.card', $anggota) }}" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition shadow-sm">Cetak Kartu</a>
                                         <a href="{{ route('admin.anggota.edit', $anggota->id) }}" class="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-[#087A4B] font-bold text-xs rounded-xl transition shadow-sm">Edit</a>
                                         <form action="{{ route('admin.anggota.destroy', $anggota->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus data anggota ini?');">
                                             @csrf

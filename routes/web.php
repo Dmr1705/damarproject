@@ -49,12 +49,17 @@ Route::get('/berita/detail/{id}', function ($id) {
 
 // Halaman Dashboard Bawaan
 Route::get('/dashboard', function () {
-    return view('dashboard', ['user' => Auth::user()]);
+    $user = Auth::user()->load('profilAnggota');
+
+    return view('dashboard', [
+        'user' => $user,
+        'anggota' => $user->profilAnggota,
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Rute yang Memerlukan Login
 Route::middleware('auth')->group(function () {
-    
+
     // Rute Profile (Bawaan Breeze)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -67,9 +72,14 @@ Route::middleware('auth')->group(function () {
     // ====================================================================
     // KUMPULAN RUTE ADMIN
     // ====================================================================
-    
+
     Route::get('/admin/dashboard', function () {
-        return view('dashboard', ['user' => Auth::user()]);
+        $user = Auth::user()->load('profilAnggota');
+
+        return view('dashboard', [
+            'user' => $user,
+            'anggota' => $user->profilAnggota,
+        ]);
     })->name('admin.dashboard');
 
     // Admin Berita
@@ -82,8 +92,10 @@ Route::middleware('auth')->group(function () {
 
     // Admin Anggota (SUDAH DIPERBAIKI MENJADI admin.anggota.create)
     Route::get('/admin/anggota', [AnggotaController::class, 'index'])->name('admin.anggota.index');
-    Route::get('/admin/anggota/tambah', [AnggotaController::class, 'create'])->name('admin.anggota.create'); 
+    Route::get('/admin/anggota/tambah', [AnggotaController::class, 'create'])->name('admin.anggota.create');
     Route::post('/admin/anggota', [AnggotaController::class, 'store'])->name('admin.anggota.store');
+    Route::get('/admin/anggota/kartu', [AnggotaController::class, 'cards'])->name('admin.anggota.cards');
+    Route::get('/admin/anggota/{anggota}/kartu', [AnggotaController::class, 'card'])->name('admin.anggota.card');
     Route::get('/admin/anggota/{id}/edit', [AnggotaController::class, 'edit'])->name('admin.anggota.edit');
     Route::put('/admin/anggota/{id}', [AnggotaController::class, 'update'])->name('admin.anggota.update');
     Route::delete('/admin/anggota/{id}', [AnggotaController::class, 'destroy'])->name('admin.anggota.destroy');

@@ -15,6 +15,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'profile_photo_path',
     ];
 
     protected $hidden = [
@@ -31,6 +32,7 @@ class User extends Authenticatable
     }
 
     const ROLE_ADMIN = 'admin';
+
     const ROLE_ANGGOTA = 'anggota';
 
     public function isAdmin()

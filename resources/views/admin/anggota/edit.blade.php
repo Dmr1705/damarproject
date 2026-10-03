@@ -31,22 +31,22 @@
                     <select name="role" id="role" required
                         class="w-full border-[#E1E9E4] focus:border-[#087A4B] focus:ring-[#087A4B] rounded-md shadow-sm text-[#17211B]">
                         <option value="">Pilih Role / Banom</option>
-                        <option value="Muslimat" {{ old('role', $anggota->role) == 'Muslimat' ? 'selected' : '' }}>Muslimat</option>
-                        <option value="Fatayat" {{ old('role', $anggota->role) == 'Fatayat' ? 'selected' : '' }}>Fatayat</option>
-                        <option value="GP Ansor" {{ old('role', $anggota->role) == 'GP Ansor' ? 'selected' : '' }}>GP Ansor</option>
-                        <option value="IPNU" {{ old('role', $anggota->role) == 'IPNU' ? 'selected' : '' }}>IPNU</option>
-                        <option value="IPPNU" {{ old('role', $anggota->role) == 'IPPNU' ? 'selected' : '' }}>IPPNU</option>
-                        <option value="PMII" {{ old('role', $anggota->role) == 'PMII' ? 'selected' : '' }}>PMII</option>
+                        <option value="Muslimat" {{ old('role', $anggota->position) == 'Muslimat' ? 'selected' : '' }}>Muslimat</option>
+                        <option value="Fatayat" {{ old('role', $anggota->position) == 'Fatayat' ? 'selected' : '' }}>Fatayat</option>
+                        <option value="GP Ansor" {{ old('role', $anggota->position) == 'GP Ansor' ? 'selected' : '' }}>GP Ansor</option>
+                        <option value="IPNU" {{ old('role', $anggota->position) == 'IPNU' ? 'selected' : '' }}>IPNU</option>
+                        <option value="IPPNU" {{ old('role', $anggota->position) == 'IPPNU' ? 'selected' : '' }}>IPPNU</option>
+                        <option value="PMII" {{ old('role', $anggota->position) == 'PMII' ? 'selected' : '' }}>PMII</option>
                     </select>
                     @error('role') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- Wilayah -->
                 <div>
-                    <label for="region" class="block text-sm font-medium text-[#17211B] mb-1">Wilayah / Cabang</label>
-                    <input type="text" name="region" id="region" value="{{ old('region', $anggota->region) }}"
+                    <label for="wilayah" class="block text-sm font-medium text-[#17211B] mb-1">Wilayah / Cabang</label>
+                    <input type="text" name="wilayah" id="wilayah" value="{{ old('wilayah', $anggota->region) }}"
                         class="w-full border-[#E1E9E4] focus:border-[#087A4B] focus:ring-[#087A4B] rounded-md shadow-sm">
-                    @error('region') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
+                    @error('wilayah') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <!-- Status -->

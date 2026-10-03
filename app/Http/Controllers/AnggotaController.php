@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anggota;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Writer\SvgWriter;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
-use App\Models\Anggota;
 
 class AnggotaController extends Controller
 {
@@ -45,8 +48,8 @@ class AnggotaController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('role', 'like', "%{$search}%")
-                  ->orWhere('wilayah', 'like', "%{$search}%");
+                    ->orWhere('position', 'like', "%{$search}%")
+                    ->orWhere('region', 'like', "%{$search}%");
             });
         }
 
@@ -57,8 +60,11 @@ class AnggotaController extends Controller
 
         // Menggunakan Pagination 10 data per halaman
         $anggotas = $query->latest()->paginate(10)->withQueryString();
+        $memberOptions = Anggota::query()
+            ->orderBy('name')
+            ->get(['id', 'name']);
 
-        return view('admin.anggota.index', compact('anggotas'));
+        return view('admin.anggota.index', compact('anggotas', 'memberOptions'));
     }
 
     public function create(): View
@@ -90,6 +96,11 @@ class AnggotaController extends Controller
             $validated['photo'] = $request->file('photo')->store('photos/anggota', 'public');
         }
 
+        $validated['position'] = $validated['role'];
+        $validated['region'] = $validated['wilayah'] ?? null;
+        unset($validated['role'], $validated['wilayah']);
+        $validated['user_id'] = Auth::id();
+
         Anggota::create($validated);
 
         return redirect()->route('admin.anggota.index')->with('success', 'Data anggota berhasil ditambahkan.');
@@ -98,7 +109,69 @@ class AnggotaController extends Controller
     public function edit($id): View
     {
         $anggota = Anggota::findOrFail($id);
+
         return view('admin.anggota.edit', compact('anggota'));
+    }
+
+    public function card(Anggota $anggota): View
+    {
+        return view('admin.anggota.card', [
+            'anggota' => $anggota,
+            'organizationLogo' => $this->organizationLogoFor($anggota),
+            'qrCode' => $this->qrCodeFor($anggota),
+        ]);
+    }
+
+    public function cards(): View
+    {
+        $anggotas = Anggota::query()->latest()->get();
+
+        return view('admin.anggota.cards', [
+            'anggotas' => $anggotas,
+            'qrCodes' => $anggotas->mapWithKeys(fn (Anggota $anggota): array => [
+                $anggota->id => $this->qrCodeFor($anggota),
+            ]),
+            'organizationLogos' => [
+                'Muslimat' => 'MuslimatNU.png',
+                'Fatayat' => 'FATAYAT-NU.png',
+                'GP Ansor' => 'GP-Ansor.png',
+                'IPNU' => 'IPNU.png',
+                'IPPNU' => 'IPPNU.png',
+                'PMII' => 'PMII.png',
+            ],
+        ]);
+    }
+
+    private function qrCodeFor(Anggota $anggota): string
+    {
+        $payload = implode("\n", [
+            'KARTU ANGGOTA NU CIROYOM',
+            '------------------------',
+            'ID Anggota: '.$anggota->id,
+            'Nama: '.$anggota->name,
+            'Organisasi: '.($anggota->position ?: 'Anggota NU'),
+            'Wilayah: '.($anggota->region ?: 'Wilayah Pusat / Umum'),
+            'Status: '.ucfirst($anggota->status ?: 'Aktif'),
+            'Tanggal Bergabung: '.($anggota->joined_at ?: 'Belum diisi'),
+            'Bio: '.($anggota->bio ?: 'Belum diisi'),
+            'Tampil Publik: '.($anggota->is_public ? 'Ya' : 'Tidak'),
+        ]);
+
+        return (new SvgWriter)
+            ->write(QrCode::create($payload)->setSize(120)->setMargin(4))
+            ->getDataUri();
+    }
+
+    private function organizationLogoFor(Anggota $anggota): ?string
+    {
+        return [
+            'Muslimat' => 'MuslimatNU.png',
+            'Fatayat' => 'FATAYAT-NU.png',
+            'GP Ansor' => 'GP-Ansor.png',
+            'IPNU' => 'IPNU.png',
+            'IPPNU' => 'IPPNU.png',
+            'PMII' => 'PMII.png',
+        ][$anggota->position ?? ''] ?? null;
     }
 
     public function update(Request $request, $id): RedirectResponse
@@ -121,6 +194,10 @@ class AnggotaController extends Controller
             'photo.image' => 'File harus berupa gambar.',
             'photo.max' => 'Ukuran gambar maksimal 2MB.',
         ]);
+
+        $validated['position'] = $validated['role'];
+        $validated['region'] = $validated['wilayah'] ?? null;
+        unset($validated['role'], $validated['wilayah']);
 
         if ($request->hasFile('photo')) {
             if ($anggota->photo && Storage::disk('public')->exists($anggota->photo)) {

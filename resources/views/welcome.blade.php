@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DIGDAYA NU - Digitalisasi Data dan Layanan Nahdlatul Ulama</title>
+    <title>NU - Digitalisasi Data dan Layanan Nahdlatul Ulama</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -19,9 +19,10 @@
     @include('layouts.public-navigation')
 
     <!-- HERO SECTION (Diperlebar ke max-w-6xl agar sama persis dengan navbar) -->
-    <div id="hero-section" class="pt-28 sm:pt-32 px-4 sm:px-6 w-full mx-auto scroll-mt-28">
-        <div class="w-full max-w-6xl mx-auto bg-gradient-to-b from-[#087A4B] to-[#065C39] text-white pt-20 pb-28 md:pt-24 md:pb-32 px-6 sm:px-12 lg:px-16 text-center relative overflow-hidden rounded-[2.5rem] shadow-xl">
+    <div id="hero-section" class="pt-3 sm:pt-7 px-4 sm:px-6 w-full mx-auto scroll-mt-28">
+        <div class="w-full max-w-6xl mx-auto bg-[#087A4B] text-white pt-20 pb-28 md:pt-24 md:pb-32 px-6 sm:px-12 lg:px-16 text-center relative overflow-hidden rounded-[2.5rem] shadow-xl print-color-adjust" style="background-image: linear-gradient(135deg, rgba(3, 61, 40, 0.84), rgba(8, 122, 75, 0.58)), url('{{ asset('storage/masjid.webp') }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
             <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            <div class="absolute left-6 top-6 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white text-lg font-black text-[#087A4B] shadow-lg sm:left-10 sm:top-8" aria-label="Logo NU">NU</div>
 
             <div class="max-w-4xl mx-auto relative z-10">
                 <span class="inline-flex items-center gap-1.5 py-1.5 px-4 rounded-full text-xs font-semibold bg-white/10 text-green-100 mb-6 backdrop-blur-sm border border-white/10 reveal delay-100">

@@ -11,13 +11,15 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased bg-[#F7FAF8] text-[#17211B]" x-data="{ sidebarOpen: true }">
+<body class="font-sans antialiased bg-[#F7FAF8] text-[#17211B]" x-data="{ sidebarOpen: window.innerWidth >= 1024 }" @resize.window="sidebarOpen = window.innerWidth >= 1024" :class="{ 'overflow-hidden': sidebarOpen && window.innerWidth < 1024 }">
 
     <div class="min-h-screen flex">
 
+        <button type="button" x-show="sidebarOpen && window.innerWidth < 1024" x-transition.opacity @click="sidebarOpen = false" class="fixed inset-0 z-40 bg-slate-950/40 backdrop-blur-[1px] lg:hidden" aria-label="Tutup menu admin"></button>
+
         <!-- Sidebar Kiri -->
         <aside :class="sidebarOpen ? 'w-64 translate-x-0' : 'w-0 -translate-x-full'"
-            class="fixed inset-y-0 left-0 z-40 bg-white border-r border-[#E1E9E4] transition-all duration-300 ease-in-out overflow-hidden flex flex-col shadow-sm">
+            class="fixed inset-y-0 left-0 z-50 bg-white border-r border-[#E1E9E4] transition-all duration-300 ease-in-out overflow-hidden flex flex-col shadow-sm">
 
             <!-- Logo Header Sidebar -->
             <div class="h-20 flex items-center gap-3 px-6 border-b border-[#E1E9E4] shrink-0">
@@ -83,10 +85,10 @@
         <!-- Area Konten Utama -->
         <div :class="sidebarOpen ? 'lg:ml-64' : 'lg:ml-0'" class="flex-1 flex flex-col transition-all duration-300 ease-in-out min-w-0">
 
-            <header class="h-16 bg-white border-b border-[#E1E9E4] px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm">
+            <header class="h-16 bg-white border-b border-[#E1E9E4] px-3 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm">
                 <div class="flex items-center gap-4">
                     <!-- Tombol Hamburger untuk Toggle Sidebar -->
-                    <button @click="sidebarOpen = !sidebarOpen" class="p-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 focus:outline-none transition shadow-sm cursor-pointer">
+                    <button type="button" @click="sidebarOpen = !sidebarOpen" :aria-expanded="sidebarOpen.toString()" aria-label="Toggle menu admin" class="p-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 focus:outline-none transition shadow-sm cursor-pointer">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
@@ -100,14 +102,18 @@
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
                         </svg>
-                        <span>Ke Beranda</span>
+                        <span class="hidden sm:inline">Ke Beranda</span>
                     </a>
 
                     <div class="h-6 w-[1px] bg-gray-200 hidden sm:block"></div>
 
                     <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-xl bg-emerald-50 text-[#087A4B] font-black text-xs flex items-center justify-center border border-emerald-100">
-                            {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
+                        <div class="w-8 h-8 overflow-hidden rounded-xl bg-emerald-50 text-[#087A4B] font-black text-xs flex items-center justify-center border border-emerald-100">
+                            @if (auth()->user()?->profile_photo_path)
+                                <img src="{{ asset('storage/'.auth()->user()->profile_photo_path) }}" alt="Foto profil {{ auth()->user()->name }}" class="h-full w-full object-cover">
+                            @else
+                                {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
+                            @endif
                         </div>
                         <span class="text-sm font-bold text-[#17211B] hidden sm:inline">{{ auth()->user()->name ?? 'User' }}</span>
                     </div>
@@ -121,6 +127,7 @@
         </div>
     </div>
 
+    @stack('scripts')
 </body>
 
 </html>

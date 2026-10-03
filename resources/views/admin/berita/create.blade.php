@@ -52,16 +52,21 @@
                 <!-- Gambar -->
                 <div>
                     <label class="block text-xs font-black text-slate-700 uppercase tracking-wider mb-2">Gambar / Thumbnail (Opsional)</label>
-                    <div class="flex items-center justify-center w-full">
-                        <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-slate-200 border-dashed rounded-2xl cursor-pointer bg-slate-50/50 hover:bg-emerald-50/30 hover:border-emerald-300 transition-all">
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6 px-4 text-center">
-                                <svg class="w-8 h-8 mb-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                <p class="text-xs text-slate-600 font-bold mb-1">Klik untuk upload gambar thumbnail</p>
-                                <p class="text-[10px] text-slate-400">Format: JPG, PNG (Maks. 2MB)</p>
+                    <input id="image" type="file" name="image" accept="image/jpeg,image/png,image/jpg" class="sr-only" aria-describedby="image-upload-help image-file-name">
+                    <label for="image" id="image-dropzone" class="group flex min-h-56 w-full cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed @error('image') border-red-300 bg-red-50/30 @else border-slate-200 bg-slate-50/50 hover:border-[#087A4B] @enderror p-6 transition-all focus-within:ring-2 focus-within:ring-emerald-500/40">
+                        <div id="image-preview-container" class="hidden mb-4 w-full flex flex-col items-center">
+                            <img id="image-preview" src="#" alt="Preview thumbnail" class="max-h-48 rounded-2xl border border-slate-200 object-cover shadow-sm">
+                            <p id="image-file-name" class="mt-2 text-xs font-medium text-slate-500"></p>
+                        </div>
+
+                        <div id="image-placeholder" class="flex flex-col items-center text-center py-4">
+                            <div class="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-100 bg-emerald-50 text-[#087A4B] shadow-sm transition-transform group-hover:scale-110">
+                                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             </div>
-                            <input type="file" name="image" accept="image/jpeg,image/png,image/jpg" class="hidden">
-                        </label>
-                    </div>
+                            <p class="mb-1 text-sm font-bold text-slate-700">Klik untuk memilih gambar atau seret ke sini</p>
+                            <p id="image-upload-help" class="text-xs text-slate-400">Format: JPG, PNG (Maks. 2MB)</p>
+                        </div>
+                    </label>
                     @error('image') <p class="text-xs text-red-600 mt-1.5 font-bold">{{ $message }}</p> @enderror
                 </div>
 
@@ -78,4 +83,48 @@
         </div>
 
     </div>
+
+    @push('scripts')
+        <script>
+            function previewNewsImage(event) {
+                const file = event.target.files[0];
+                if (!file) {
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (loadEvent) {
+                    document.getElementById('image-preview').src = loadEvent.target.result;
+                    document.getElementById('image-file-name').textContent = file.name;
+                    document.getElementById('image-preview-container').classList.remove('hidden');
+                    document.getElementById('image-placeholder').classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+
+            const imageDropzone = document.getElementById('image-dropzone');
+            const imageInput = document.getElementById('image');
+
+            imageInput.addEventListener('change', previewNewsImage);
+
+            imageDropzone.addEventListener('dragover', function (event) {
+                event.preventDefault();
+                imageDropzone.classList.add('border-[#087A4B]');
+            });
+
+            imageDropzone.addEventListener('dragleave', function () {
+                imageDropzone.classList.remove('border-[#087A4B]');
+            });
+
+            imageDropzone.addEventListener('drop', function (event) {
+                event.preventDefault();
+                imageDropzone.classList.remove('border-[#087A4B]');
+
+                if (event.dataTransfer.files.length > 0) {
+                    imageInput.files = event.dataTransfer.files;
+                    previewNewsImage({ target: imageInput });
+                }
+            });
+        </script>
+    @endpush
 @endsection

@@ -1,4 +1,6 @@
-<x-admin-layout>
+@extends('layouts.admin')
+
+@section('content')
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
         <div>
             <h2 class="text-2xl font-bold text-[#17211B]">Tambah Anggota Baru</h2>
@@ -100,4 +102,4 @@
             </div>
         </form>
     </div>
-</x-admin-layout>
+@endsection
