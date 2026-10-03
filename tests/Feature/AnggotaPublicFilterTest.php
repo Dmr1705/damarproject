@@ -44,7 +44,7 @@ test('editing a member updates the banom used by the public filter', function ()
     $this->actingAs($user)->put(route('admin.anggota.update', $anggota), [
         'name' => $anggota->name,
         'role' => 'PMII',
-        'wilayah' => 'Ciroyom',
+        'wilayah' => 'Sawangan',
         'status' => 'Aktif',
         'is_public' => '1',
     ]);
@@ -52,7 +52,7 @@ test('editing a member updates the banom used by the public filter', function ()
     $this->assertDatabaseHas('anggota', [
         'id' => $anggota->id,
         'position' => 'PMII',
-        'region' => 'Ciroyom',
+        'region' => 'Sawangan',
     ]);
     $this->get(route('anggota', ['category' => 'PMII']))
         ->assertSee('Anggota Berubah');
@@ -63,12 +63,12 @@ test('admin search finds members by banom and displays their region', function (
     Anggota::create([
         'name' => 'Anggota Dicari',
         'position' => 'PMII',
-        'region' => 'Ciroyom',
+        'region' => 'Sawangan',
         'status' => 'Aktif',
         'is_public' => true,
     ]);
 
     $response = $this->actingAs($user)->get(route('admin.anggota.index', ['search' => 'PMII']));
 
-    $response->assertSee('Anggota Dicari')->assertSee('Ciroyom');
+    $response->assertSee('Anggota Dicari')->assertSee('Sawangan');
 });

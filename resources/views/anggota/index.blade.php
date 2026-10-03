@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Anggota - NU CIROYOM</title>
+    <title>Anggota - NU Sawangan</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -18,8 +18,8 @@
             <div class="absolute -right-16 -top-20 h-56 w-56 rounded-full bg-emerald-300/20 blur-3xl"></div>
             <div>
                 <span class="text-emerald-200 font-bold text-xs uppercase tracking-[0.2em]">Modul Keanggotaan</span>
-                <h1 class="mt-2 text-3xl md:text-4xl font-black tracking-tight">Anggota NU Ciroyom</h1>
-                <p class="mt-3 max-w-xl text-sm leading-relaxed text-emerald-50/80">Kenali anggota aktif dari berbagai badan otonom NU Ciroyom dalam satu direktori.</p>
+                <h1 class="mt-2 text-3xl md:text-4xl font-black tracking-tight">Anggota NU Sawangan</h1>
+                <p class="mt-3 max-w-xl text-sm leading-relaxed text-emerald-50/80">Kenali anggota aktif dari berbagai badan otonom NU Sawangan dalam satu direktori.</p>
             </div>
         </div>
 

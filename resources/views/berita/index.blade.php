@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Berita Terkini - NU CIROYOM</title>
+    <title>Berita Terkini - NU Sawangan</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -19,7 +19,7 @@
             <div>
                 <span class="text-[#087A4B] font-bold text-xs uppercase tracking-[0.2em]">Warta & Informasi</span>
                 <h1 class="mt-2 text-3xl md:text-4xl font-black text-gray-900 tracking-tight">Berita Terkini</h1>
-                <p class="mt-3 max-w-xl text-sm leading-relaxed text-gray-500">Ikuti kabar terbaru, kegiatan, dan informasi resmi NU Ciroyom.</p>
+                <p class="mt-3 max-w-xl text-sm leading-relaxed text-gray-500">Ikuti kabar terbaru, kegiatan, dan informasi resmi NU Sawangan.</p>
             </div>
             <div class="mt-5 md:mt-0">
                 @auth

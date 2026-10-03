@@ -21,7 +21,7 @@ test('authenticated user can view a printable member card', function () {
     $anggota = Anggota::create([
         'name' => 'Siti Aminah',
         'position' => 'Muslimat',
-        'region' => 'Ciroyom',
+        'region' => 'Sawangan',
         'status' => 'Aktif',
         'is_public' => true,
     ]);
@@ -32,7 +32,7 @@ test('authenticated user can view a printable member card', function () {
         ->assertSee('Kartu Anggota')
         ->assertSee('Kembali ke Halaman Admin')
         ->assertSee('Siti Aminah')
-        ->assertSee('Ciroyom')
+        ->assertSee('Sawangan')
         ->assertSee('MuslimatNU.png')
         ->assertSee('data:image/svg+xml');
 });
@@ -69,7 +69,7 @@ test('new member is linked to the authenticated account', function () {
     $response = $this->actingAs($user)->post(route('admin.anggota.store'), [
         'name' => 'Anggota Terhubung',
         'role' => 'IPNU',
-        'wilayah' => 'Ciroyom',
+        'wilayah' => 'Sawangan',
         'status' => 'Aktif',
         'joined_at' => '2026-09-08',
         'is_public' => '1',

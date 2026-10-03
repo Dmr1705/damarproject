@@ -55,9 +55,9 @@
 
     <section class="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-2 md:items-center">
         <div class="reveal">
-            <span class="text-xs font-bold uppercase tracking-[0.2em] text-[#087A4B]">Tentang NU Ciroyom</span>
+            <span class="text-xs font-bold uppercase tracking-[0.2em] text-[#087A4B]">Tentang NU Sawangan</span>
             <h2 class="mt-3 text-3xl font-black tracking-tight text-gray-900">Satu ruang untuk tumbuh bersama.</h2>
-            <p class="mt-4 max-w-xl text-sm leading-relaxed text-gray-600">Website ini menjadi pusat informasi dan digitalisasi data organisasi NU Ciroyom, membantu warga menemukan berita, dokumentasi, dan informasi anggota dengan lebih mudah.</p>
+            <p class="mt-4 max-w-xl text-sm leading-relaxed text-gray-600">Website ini menjadi pusat informasi dan digitalisasi data organisasi NU Sawangan, membantu warga menemukan berita, dokumentasi, dan informasi anggota dengan lebih mudah.</p>
             <a href="#produk-section" class="mt-6 inline-flex rounded-xl bg-[#087A4B] px-5 py-3 text-sm font-bold text-white shadow-lg shadow-emerald-900/10 transition hover:-translate-y-0.5 hover:bg-[#065C39]">Kenali Organisasi Kami</a>
         </div>
         <div class="reveal rounded-[2rem] bg-gradient-to-br from-[#087A4B] to-[#064A32] p-8 text-white shadow-xl">

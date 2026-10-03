@@ -4,7 +4,7 @@
 <div class="relative flex items-center justify-between border-b border-white/25 pb-2">
     <div>
         <p class="text-[9px] font-black uppercase tracking-[0.18em] text-emerald-100">Kartu Anggota</p>
-        <p class="text-[7px] font-medium uppercase tracking-widest text-emerald-200">NU Ciroyom</p>
+        <p class="text-[7px] font-medium uppercase tracking-widest text-emerald-200">NU Sawangan</p>
     </div>
     @if ($organizationLogo)
         <img src="{{ asset('storage/logo organisasi/' . $organizationLogo) }}" alt="Logo {{ $anggota->position }}" class="h-[11mm] w-[11mm] rounded-xl bg-white object-contain p-1">

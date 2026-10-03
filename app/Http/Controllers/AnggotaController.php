@@ -145,7 +145,7 @@ class AnggotaController extends Controller
     private function qrCodeFor(Anggota $anggota): string
     {
         $payload = implode("\n", [
-            'KARTU ANGGOTA NU CIROYOM',
+            'KARTU ANGGOTA NU Sawangan',
             '------------------------',
             'ID Anggota: '.$anggota->id,
             'Nama: '.$anggota->name,

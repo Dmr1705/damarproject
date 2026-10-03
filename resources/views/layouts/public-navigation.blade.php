@@ -10,7 +10,7 @@
         <div class="flex min-w-0 items-center gap-2 sm:gap-3">
             <img src="{{ asset('storage/NU.webp') }}" alt="Logo NU" class="h-8 w-8 shrink-0 rounded-full object-cover shadow-sm shadow-green-900/20 sm:h-10 sm:w-10">
             <div class="min-w-0">
-                <span class="block whitespace-nowrap text-base font-bold tracking-tight text-[#087A4B] sm:text-xl">NU CIROYOM</span>
+                <span class="block whitespace-nowrap text-base font-bold tracking-tight text-[#087A4B] sm:text-xl">NU Sawangan</span>
                 <span class="-mt-1 hidden whitespace-nowrap text-[10px] font-medium uppercase tracking-wider text-gray-600 sm:block">NU Digitalisasi</span>
             </div>
         </div>

@@ -47,12 +47,7 @@
                             </div>
                         </div>
 
-                        <div class="mt-6">
-                            <a href="{{ $user->isAdmin() ? route('admin.dashboard') : route('home') }}" class="w-full py-3.5 bg-[#087A4B] hover:bg-emerald-700 text-white font-bold text-xs rounded-2xl shadow-md shadow-emerald-500/20 transition flex items-center justify-center gap-2">
-                                {{ $user->isAdmin() ? 'Kelola Panel Admin' : 'Kembali ke Beranda' }}
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                            </a>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -88,8 +83,16 @@
 
                         <div>
                             <label for="profile_photo" class="block text-xs font-black uppercase tracking-wider text-slate-500 mb-2">Foto Profil (Opsional)</label>
-                            <input type="file" id="profile_photo" name="profile_photo" accept="image/jpeg,image/png" class="w-full rounded-2xl border border-slate-200/80 bg-slate-50/60 text-sm text-slate-700 file:mr-4 file:border-0 file:bg-emerald-50 file:px-4 file:py-3 file:font-bold file:text-[#087A4B]">
+                            <input type="file" id="profile_photo" name="profile_photo" accept="image/jpeg,image/png" class="sr-only" onchange="document.getElementById('profile-photo-preview-img').src = URL.createObjectURL(this.files[0]); document.getElementById('profile-photo-filename').textContent = this.files[0]?.name || ''; document.getElementById('profile-photo-preview').classList.remove('hidden');">
+                            <button type="button" onclick="document.getElementById('profile_photo').click()" class="w-full rounded-2xl border border-slate-200/80 bg-emerald-50 hover:bg-emerald-100 px-4 py-3 text-sm font-bold text-[#087A4B] transition flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"></path></svg>
+                                <span>Pilih Foto Profil</span>
+                            </button>
                             <p class="mt-2 text-xs text-slate-400">Format JPG atau PNG, maksimal 2 MB.</p>
+                            <div id="profile-photo-preview" class="mt-3 flex items-center gap-3 hidden">
+                                <img id="profile-photo-preview-img" src="#" alt="Preview" class="w-16 h-16 rounded-xl object-cover border border-slate-200">
+                                <span id="profile-photo-filename" class="text-xs text-slate-500"></span>
+                            </div>
                             @error('profile_photo')
                                 <p class="mt-1 text-xs font-semibold text-red-600">{{ $message }}</p>
                             @enderror

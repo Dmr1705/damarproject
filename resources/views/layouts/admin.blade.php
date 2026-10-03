@@ -28,7 +28,7 @@
                 </div>
                 <div>
                     <span class="font-black text-base text-[#087A4B] tracking-tight block">Panel Admin</span>
-                    <span class="text-[10px] text-gray-400 font-semibold tracking-wider uppercase block -mt-1">NU Ciroyom</span>
+                    <span class="text-[10px] text-gray-400 font-semibold tracking-wider uppercase block -mt-1">NU Sawangan</span>
                 </div>
             </div>
 
@@ -93,7 +93,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                         </svg>
                     </button>
-                    <span class="font-black text-[#087A4B] text-base tracking-tight">NU CIROYOM</span>
+                    <span class="font-black text-[#087A4B] text-base tracking-tight">NU Sawangan</span>
                 </div>
 
                 <div class="flex items-center gap-3">
