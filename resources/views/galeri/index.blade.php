@@ -8,18 +8,15 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased text-gray-900 bg-white flex flex-col min-h-screen relative overflow-x-hidden">
-
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-48 bg-gradient-to-b from-emerald-500/20 via-emerald-500/5 to-transparent blur-3xl pointer-events-none z-40"></div>
-
+<body class="public-site flex min-h-screen flex-col overflow-x-hidden bg-slate-50 font-sans text-gray-900 antialiased">
     @include('layouts.public-navigation')
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16 flex-grow w-full">
-        <div class="reveal relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-emerald-50/70 to-green-100/50 px-6 py-8 md:flex md:items-end md:justify-between md:px-10 md:py-10">
+    <main class="public-page-shell flex-grow">
+        <div class="public-page-header reveal md:flex md:items-end md:justify-between md:gap-8">
             <div>
-                <span class="text-[#087A4B] font-bold text-xs uppercase tracking-[0.2em]">Dokumentasi</span>
-                <h1 class="mt-2 text-3xl md:text-4xl font-black text-gray-900 tracking-tight">Galeri Kegiatan</h1>
-                <p class="mt-3 max-w-xl text-sm leading-relaxed text-gray-500">Momen penting dan dokumentasi visual kegiatan NU Sawangan.</p>
+                <span class="text-xs font-bold uppercase tracking-[0.16em] text-[#087A4B]">Dokumentasi</span>
+                <h1 class="mt-2">Galeri Kegiatan</h1>
+                <p class="mt-3 max-w-xl text-sm leading-relaxed text-slate-600">Momen penting dan dokumentasi visual kegiatan NU Sawangan.</p>
             </div>
             <div class="mt-5 md:mt-0">
                 @auth
@@ -49,9 +46,16 @@
         </div>
 
         <!-- Grid Galeri -->
-        <div class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        @php($galleryCount = $galeris->count())
+        <div @class([
+            'public-gallery-grid mt-8 grid w-full gap-5',
+            'mx-auto max-w-xl grid-cols-1' => $galleryCount <= 1,
+            'mx-auto max-w-4xl grid-cols-1 sm:grid-cols-2' => $galleryCount === 2,
+            'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' => $galleryCount === 3,
+            'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' => $galleryCount > 3,
+        ])>
             @forelse ($galeris as $galeri)
-            <button type="button" data-lightbox="{{ asset('storage/'.$galeri->photo) }}" data-title="{{ $galeri->title ?? 'Galeri' }}" class="reveal block w-full rounded-3xl overflow-hidden shadow-sm border border-gray-100 aspect-square bg-gray-50 relative text-left group hover:-translate-y-1 hover:shadow-xl transition duration-300">
+            <button type="button" data-lightbox="{{ asset('storage/'.$galeri->photo) }}" data-title="{{ $galeri->title ?? 'Galeri' }}" aria-label="Perbesar {{ $galeri->title ?? 'foto galeri' }}" class="reveal group relative block aspect-square w-full overflow-hidden rounded-3xl border border-gray-100 bg-gray-50 text-left shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#087A4B]">
                 <img src="{{ asset('storage/'.$galeri->photo) }}" alt="{{ $galeri->title ?? 'Galeri' }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                 
                 @if($galeri->category)
@@ -59,16 +63,17 @@
                         <span class="px-2.5 py-1 bg-white/90 backdrop-blur-md text-[#087A4B] font-extrabold text-[10px] rounded-xl shadow-sm border border-emerald-100">
                             {{ $galeri->category }}
                         </span>
-                        <span class="absolute inset-0 flex items-center justify-center bg-emerald-950/0 text-white opacity-0 transition group-hover:bg-emerald-950/25 group-hover:opacity-100">Perbesar</span>
-                    </button>
+                    </div>
                 @endif
+
+                <span class="pointer-events-none absolute inset-0 flex items-center justify-center bg-emerald-950/0 text-xs font-bold text-white opacity-0 transition duration-300 group-hover:bg-emerald-950/25 group-hover:opacity-100">Perbesar</span>
 
                 @if($galeri->title)
                     <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 pt-8 text-white opacity-0 group-hover:opacity-100 transition duration-300">
                         <p class="text-xs font-bold truncate">{{ $galeri->title }}</p>
                     </div>
                 @endif
-            </div>
+            </button>
             @empty
             <div class="col-span-full text-center py-20 bg-white rounded-2xl border border-dashed border-gray-200">
                 <div class="inline-flex flex-col items-center justify-center text-gray-400">
@@ -78,7 +83,7 @@
             </div>
             @endforelse
         </div>
-    </div>
+    </main>
 
     @include('layouts.public-footer')
 

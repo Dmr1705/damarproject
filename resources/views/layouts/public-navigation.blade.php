@@ -5,8 +5,8 @@
     $organizationUrl = $isHome ? '#produk-section' : $homeUrl . '#produk-section';
 @endphp
 
-<nav id="navbar-wrapper" class="sticky top-0 left-0 w-full z-50 py-4 px-4 sm:px-6 flex flex-col items-center">
-    <div id="navbar-box" class="w-full max-w-6xl bg-white/90 backdrop-blur-lg rounded-full shadow-sm border border-emerald-500/20 px-6 md:px-10 py-4 transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none flex justify-between items-center gap-4 relative z-20">
+<nav id="navbar-wrapper" class="sticky top-0 z-50 flex w-full flex-col items-center px-4 py-1 sm:px-6">
+    <div id="navbar-box" class="relative z-20 flex w-full max-w-6xl items-center justify-between gap-4 rounded-full border border-emerald-500/20 bg-white/90 px-5 py-2 shadow-sm backdrop-blur-lg transition-colors duration-300 motion-reduce:transition-none sm:px-6 md:px-8">
         <div class="flex min-w-0 items-center gap-2 sm:gap-3">
             <img src="{{ asset('storage/NU.webp') }}" alt="Logo NU" class="h-8 w-8 shrink-0 rounded-full object-cover shadow-sm shadow-green-900/20 sm:h-10 sm:w-10">
             <div class="min-w-0">
@@ -15,12 +15,12 @@
             </div>
         </div>
 
-        <div class="hidden lg:flex shrink-0 items-center gap-1 rounded-full border border-emerald-100 bg-emerald-50/60 p-1 text-sm font-semibold text-gray-500">
-            <a href="{{ $homeSectionUrl }}" class="{{ $isHome ? 'bg-white text-[#087A4B] shadow-sm' : '' }} rounded-full px-3 py-2 transition hover:text-[#087A4B]">Beranda</a>
-            <a href="{{ $organizationUrl }}" class="rounded-full px-3 py-2 transition hover:bg-white/70 hover:text-[#087A4B]">Organisasi</a>
-            <a href="{{ route('anggota') }}" class="{{ request()->routeIs('anggota') ? 'bg-white text-[#087A4B] shadow-sm' : '' }} rounded-full px-3 py-2 transition hover:bg-white/70 hover:text-[#087A4B]">Anggota</a>
-            <a href="{{ route('galeri') }}" class="{{ request()->routeIs('galeri') ? 'bg-white text-[#087A4B] shadow-sm' : '' }} rounded-full px-3 py-2 transition hover:bg-white/70 hover:text-[#087A4B]">Galeri</a>
-            <a href="{{ route('berita.index') }}" class="{{ request()->routeIs('berita*') ? 'bg-white text-[#087A4B] shadow-sm' : '' }} rounded-full px-3 py-2 transition hover:bg-white/70 hover:text-[#087A4B]">Berita</a>
+        <div class="public-nav-links hidden shrink-0 items-center gap-1 rounded-full border p-1 text-sm font-semibold lg:flex">
+            <a href="{{ $homeSectionUrl }}" @class(['public-nav-link', 'is-active' => $isHome]) @if ($isHome) aria-current="page" @endif>Beranda</a>
+            <a href="{{ $organizationUrl }}" class="public-nav-link">Organisasi</a>
+            <a href="{{ route('anggota') }}" @class(['public-nav-link', 'is-active' => request()->routeIs('anggota')]) @if (request()->routeIs('anggota')) aria-current="page" @endif>Anggota</a>
+            <a href="{{ route('galeri') }}" @class(['public-nav-link', 'is-active' => request()->routeIs('galeri')]) @if (request()->routeIs('galeri')) aria-current="page" @endif>Galeri</a>
+            <a href="{{ route('berita.index') }}" @class(['public-nav-link', 'is-active' => request()->routeIs('berita*')]) @if (request()->routeIs('berita*')) aria-current="page" @endif>Berita</a>
         </div>
 
         <div class="flex shrink-0 items-center gap-3">

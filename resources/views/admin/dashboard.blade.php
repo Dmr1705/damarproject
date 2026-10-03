@@ -5,7 +5,7 @@
     </div>
 
     <!-- Cards Grid (Ditambah menjadi 6 cards sesuai Aturan #45) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="bento-card-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         
         <!-- Total Anggota -->
         <div class="bg-white p-6 rounded-xl border border-[#E1E9E4] shadow-sm flex items-center">

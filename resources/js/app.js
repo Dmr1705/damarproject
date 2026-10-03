@@ -1,32 +1,11 @@
 import Alpine from "alpinejs";
 
+document.documentElement.classList.add("js");
 window.Alpine = Alpine;
 
 Alpine.start();
 
-let isNavbarScrolled = false;
-
-function updateNavbar() {
-    const box = document.getElementById("navbar-box");
-
-    if (!box) {
-        return;
-    }
-
-    if (window.scrollY > 20 && !isNavbarScrolled) {
-        isNavbarScrolled = true;
-        box.classList.remove("py-4", "shadow-sm", "bg-white/90");
-        box.classList.add("py-3", "shadow-md", "bg-white/95");
-    } else if (window.scrollY <= 20 && isNavbarScrolled) {
-        isNavbarScrolled = false;
-        box.classList.remove("py-3", "shadow-md", "bg-white/95");
-        box.classList.add("py-4", "shadow-sm", "bg-white/90");
-    }
-}
-
 function initializePublicInteractions() {
-    window.addEventListener("scroll", updateNavbar);
-
     const imageInput = document.getElementById("image");
     const imageFileName = document.getElementById("image-file-name");
     if (imageInput instanceof HTMLInputElement && imageFileName) {
@@ -58,6 +37,15 @@ function initializePublicInteractions() {
                 mobileMenuButton.getAttribute("aria-expanded") !== "true",
             );
         });
+        document.addEventListener("keydown", (event) => {
+            if (
+                event.key === "Escape" &&
+                mobileMenuButton.getAttribute("aria-expanded") === "true"
+            ) {
+                setMobileMenuOpen(false);
+                mobileMenuButton.focus();
+            }
+        });
         mobileMenu.querySelectorAll("a").forEach((link) => {
             link.addEventListener("click", () => {
                 setMobileMenuOpen(false);
@@ -72,7 +60,7 @@ function initializePublicInteractions() {
                 return;
             }
 
-            const targetElement = document.querySelector(targetId);
+            const targetElement = document.getElementById(targetId.slice(1));
             if (!targetElement) {
                 return;
             }
@@ -83,47 +71,94 @@ function initializePublicInteractions() {
                     targetElement.getBoundingClientRect().top +
                     window.pageYOffset -
                     90,
-                behavior: "smooth",
+                behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+                    .matches
+                    ? "auto"
+                    : "smooth",
             });
         });
     });
 
     const reveals = document.querySelectorAll(".reveal");
-    if (!("IntersectionObserver" in window)) {
+    const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
         reveals.forEach((element) => element.classList.add("active"));
-        return;
+    } else {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.05 },
+        );
+
+        reveals.forEach((element) => observer.observe(element));
     }
-
-    const observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add("active");
-                }
-            });
-        },
-        { threshold: 0.05 },
-    );
-
-    reveals.forEach((element) => observer.observe(element));
 
     document.querySelectorAll("[data-lightbox]").forEach((trigger) => {
         trigger.addEventListener("click", () => {
+            if (!(trigger instanceof HTMLElement)) {
+                return;
+            }
+
+            const previousFocus = document.activeElement;
             const modal = document.createElement("div");
             modal.className =
                 "fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/90 p-4";
-            modal.innerHTML = `<button type="button" aria-label="Tutup" class="absolute right-5 top-5 text-3xl text-white">&times;</button><img src="${trigger.dataset.lightbox}" alt="${trigger.dataset.title || ""}" class="max-h-[90vh] max-w-full rounded-2xl object-contain shadow-2xl">`;
+            modal.setAttribute("role", "dialog");
+            modal.setAttribute("aria-modal", "true");
+            modal.setAttribute("aria-label", trigger.dataset.title || "Pratinjau foto");
+            modal.tabIndex = -1;
+
+            const closeButton = document.createElement("button");
+            closeButton.type = "button";
+            closeButton.setAttribute("aria-label", "Tutup pratinjau foto");
+            closeButton.className =
+                "absolute right-5 top-5 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-3xl leading-none text-white transition hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white";
+            closeButton.textContent = "×";
+
+            const image = document.createElement("img");
+            image.src = trigger.dataset.lightbox || "";
+            image.alt = trigger.dataset.title || "";
+            image.className =
+                "max-h-[90vh] max-w-full rounded-2xl object-contain shadow-2xl";
+
+            modal.append(closeButton, image);
             document.body.appendChild(modal);
             document.body.classList.add("lightbox-open");
+
+            const closeModal = () => {
+                modal.remove();
+                document.body.classList.remove("lightbox-open");
+                document.removeEventListener("keydown", handleKeydown);
+                if (previousFocus instanceof HTMLElement) {
+                    previousFocus.focus();
+                }
+            };
+
+            const handleKeydown = (event) => {
+                if (event.key === "Escape") {
+                    closeModal();
+                } else if (event.key === "Tab") {
+                    event.preventDefault();
+                    closeButton.focus();
+                }
+            };
+
+            closeButton.addEventListener("click", closeModal);
             modal.addEventListener("click", (event) => {
-                if (
-                    event.target === modal ||
-                    event.target.tagName === "BUTTON"
-                ) {
-                    modal.remove();
-                    document.body.classList.remove("lightbox-open");
+                if (event.target === modal) {
+                    closeModal();
                 }
             });
+            document.addEventListener("keydown", handleKeydown);
+            closeButton.focus();
         });
     });
 }

@@ -8,18 +8,15 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased text-gray-900 bg-slate-50 flex flex-col min-h-screen relative overflow-x-hidden">
-
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-48 bg-gradient-to-b from-emerald-500/20 via-emerald-500/5 to-transparent blur-3xl pointer-events-none z-40"></div>
-
+<body class="public-site flex min-h-screen flex-col overflow-x-hidden bg-slate-50 font-sans text-gray-900 antialiased">
     @include('layouts.public-navigation')
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16 flex-grow w-full">
-        <div class="reveal relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-white via-emerald-50/70 to-green-100/50 px-6 py-8 md:flex md:items-end md:justify-between md:px-10 md:py-10">
+    <main class="public-page-shell flex-grow">
+        <div class="public-page-header reveal md:flex md:items-end md:justify-between md:gap-8">
             <div>
-                <span class="text-[#087A4B] font-bold text-xs uppercase tracking-[0.2em]">Warta & Informasi</span>
-                <h1 class="mt-2 text-3xl md:text-4xl font-black text-gray-900 tracking-tight">Berita Terkini</h1>
-                <p class="mt-3 max-w-xl text-sm leading-relaxed text-gray-500">Ikuti kabar terbaru, kegiatan, dan informasi resmi NU Sawangan.</p>
+                <span class="text-xs font-bold uppercase tracking-[0.16em] text-[#087A4B]">Warta & Informasi</span>
+                <h1 class="mt-2">Berita Terkini</h1>
+                <p class="mt-3 max-w-xl text-sm leading-relaxed text-gray-600">Ikuti kabar terbaru, kegiatan, dan informasi resmi NU Sawangan.</p>
             </div>
             <div class="mt-5 md:mt-0">
                 @auth
@@ -47,9 +44,16 @@
             </article>
         @endif
 
-        <div class="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            @forelse ($beritas->skip(1) as $index => $berita)
-            <div class="reveal bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col group">
+        @php($additionalNewsCount = max(0, $beritas->count() - 1))
+        <div @class([
+            'public-news-grid mt-10 grid w-full gap-6',
+            'mx-auto max-w-xl grid-cols-1' => $additionalNewsCount === 0,
+            'mx-auto max-w-md grid-cols-1' => $additionalNewsCount === 1,
+            'mx-auto max-w-4xl grid-cols-1 sm:grid-cols-2' => $additionalNewsCount === 2,
+            'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' => $additionalNewsCount >= 3,
+        ])>
+            @forelse ($beritas->skip(1) as $berita)
+            <article class="public-news-card reveal flex flex-col group overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                 <div class="overflow-hidden relative h-56 bg-gradient-to-br from-emerald-50 to-gray-100">
                     @if($berita->image)
                     <img src="{{ asset('storage/'.$berita->image) }}" alt="{{ $berita->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
@@ -65,14 +69,14 @@
                         <a href="{{ route('berita.show', $berita->id) }}" class="text-[#087A4B] hover:text-[#065C39] font-bold text-sm inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">Baca Selengkapnya <span>&rarr;</span></a>
                     </div>
                 </div>
-            </div>
+            </article>
             @empty
             <div class="col-span-full text-center py-20 bg-white rounded-2xl border border-dashed border-gray-200">
                 <p class="text-gray-400 font-medium">Belum ada berita yang diterbitkan saat ini.</p>
             </div>
             @endforelse
         </div>
-    </div>
+    </main>
 
     @include('layouts.public-footer')
 

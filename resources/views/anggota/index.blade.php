@@ -8,18 +8,15 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="font-sans antialiased text-gray-900 bg-slate-50 flex flex-col min-h-screen relative overflow-x-hidden">
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-48 bg-gradient-to-b from-emerald-500/20 via-emerald-500/5 to-transparent blur-3xl pointer-events-none z-40"></div>
-
+<body class="public-site flex min-h-screen flex-col overflow-x-hidden bg-slate-50 font-sans text-gray-900 antialiased">
     @include('layouts.public-navigation')
 
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 pt-32 pb-16 flex-grow w-full">
-        <div class="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#087A4B] to-[#064A32] px-6 py-10 text-white shadow-xl shadow-emerald-900/10 sm:px-10 reveal">
-            <div class="absolute -right-16 -top-20 h-56 w-56 rounded-full bg-emerald-300/20 blur-3xl"></div>
+    <main class="public-page-shell flex-grow">
+        <div class="public-page-header reveal">
             <div>
-                <span class="text-emerald-200 font-bold text-xs uppercase tracking-[0.2em]">Modul Keanggotaan</span>
-                <h1 class="mt-2 text-3xl md:text-4xl font-black tracking-tight">Anggota NU Sawangan</h1>
-                <p class="mt-3 max-w-xl text-sm leading-relaxed text-emerald-50/80">Kenali anggota aktif dari berbagai badan otonom NU Sawangan dalam satu direktori.</p>
+                <span class="text-xs font-bold uppercase tracking-[0.16em] text-[#087A4B]">Modul Keanggotaan</span>
+                <h1 class="mt-2">Anggota NU Sawangan</h1>
+                <p class="mt-3 max-w-xl text-sm leading-relaxed text-slate-600">Kenali anggota aktif dari berbagai badan otonom NU Sawangan dalam satu direktori.</p>
             </div>
         </div>
 
@@ -43,7 +40,7 @@
             </div>
         </div>
 
-        <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="bento-card-grid mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             @forelse ($anggotas as $anggota)
                 <article class="reveal group overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-xl">
                     <div class="h-1 bg-gradient-to-r from-emerald-400 to-[#087A4B]"></div>

@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AnggotaController;
+use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\GaleriController;
+use App\Http\Controllers\ProfileController;
 use App\Models\Anggota;
 use App\Models\Berita;
 use App\Models\Galeri;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\BeritaController;
-use App\Http\Controllers\AnggotaController;
-use App\Http\Controllers\GaleriController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +18,7 @@ use App\Http\Controllers\GaleriController;
 
 // 1. Halaman Utama / Landing Page
 Route::get('/', function () {
-    $beritas = class_exists(Berita::class) ? Berita::latest()->take(3)->get() : collect();
+    $beritas = Berita::where('status', 'published')->latest()->take(3)->get();
     $stats = [
         ['value' => Anggota::where('is_public', true)->count(), 'label' => 'Anggota'],
         ['value' => Anggota::whereNotNull('position')->where('position', '!=', '')->distinct()->count('position'), 'label' => 'Organisasi'],
@@ -37,13 +37,15 @@ Route::get('/anggota', [AnggotaController::class, 'publicIndex'])->name('anggota
 
 // 4. Halaman Berita Publik
 Route::get('/berita', function () {
-    $beritas = class_exists(Berita::class) ? Berita::latest()->get() : collect();
+    $beritas = Berita::where('status', 'published')->latest()->get();
+
     return view('berita.index', compact('beritas'));
 })->name('berita.index');
 
 // Halaman Detail Berita
 Route::get('/berita/detail/{id}', function ($id) {
-    $berita = class_exists(Berita::class) ? Berita::findOrFail($id) : abort(404);
+    $berita = Berita::where('status', 'published')->findOrFail($id);
+
     return view('berita-detail', compact('berita'));
 })->name('berita.show');
 
