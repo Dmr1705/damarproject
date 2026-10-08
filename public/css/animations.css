@@ -1,0 +1,96 @@
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translate3d(0, 18px, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translate3d(0, -14px, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes fadeInLeft {
+    from { opacity: 0; transform: translate3d(-18px, 0, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes fadeInRight {
+    from { opacity: 0; transform: translate3d(18px, 0, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translate3d(28px, 0, 0); }
+    to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.035); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    50% { transform: translate3d(0, -8px, 0); }
+}
+
+@keyframes shimmer {
+    from { transform: translate3d(-110%, 0, 0); }
+    to { transform: translate3d(110%, 0, 0); }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes gradientShift {
+    0%, 100% { transform: translate3d(-2%, 0, 0); }
+    50% { transform: translate3d(2%, 0, 0); }
+}
+
+.anim-fade-in { animation: fadeIn 600ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-fade-up { animation: fadeInUp 650ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-fade-down { animation: fadeInDown 600ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-fade-left { animation: fadeInLeft 650ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-fade-right { animation: fadeInRight 650ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-scale-in { animation: scaleIn 700ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-slide-right { animation: slideInRight 500ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.anim-pulse { animation: pulse 2.8s ease-in-out infinite; }
+.anim-float { animation: float 5s ease-in-out infinite; }
+.anim-spin { animation: spin 900ms linear infinite; }
+.anim-gradient-shift { position: relative; isolation: isolate; overflow: hidden; }
+.anim-gradient-shift::before { position: absolute; z-index: -1; inset: -10%; background: linear-gradient(110deg, var(--green-900), var(--green-700), var(--green-950)); content: ""; animation: gradientShift 8s ease-in-out infinite; }
+.anim-shimmer { position: relative; isolation: isolate; overflow: hidden; }
+.anim-shimmer::after { position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.32), transparent); content: ""; transform: translate3d(-110%, 0, 0); animation: shimmer 1.8s ease-in-out infinite; }
+.delay-1 { animation-delay: 100ms; }
+.delay-2 { animation-delay: 200ms; }
+.delay-3 { animation-delay: 300ms; }
+.delay-4 { animation-delay: 400ms; }
+.delay-5 { animation-delay: 500ms; }
+
+@supports (animation-timeline: view()) {
+    .anim-on-scroll {
+        animation: fadeInUp 650ms cubic-bezier(0.16, 1, 0.3, 1) both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 35%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}

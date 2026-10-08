@@ -1,112 +1,69 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Daftar - DIGDAYA NU</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="font-sans antialiased text-gray-900 bg-slate-50 flex flex-col justify-center min-h-screen selection:bg-emerald-500 selection:text-white py-10">
-    
-    <div class="max-w-md w-full mx-auto px-4">
-        <div class="text-center mb-8">
-            <h1 class="text-2xl font-black text-[#087A4B] tracking-tight">DIGDAYA NU</h1>
-            <p class="text-xs text-gray-500 mt-1">DIGITALISASI DATA & LAYANAN</p>
-        </div>
+<x-guest-layout>
+    <div class="auth-form">
+        <span class="ui-badge">Akun warga</span>
+        <h2>Daftar akun baru</h2>
+        <p class="auth-form__intro">Bergabunglah dengan ruang layanan digital NU Sawangan.</p>
 
-        <div class="bg-white p-8 rounded-3xl shadow-xl shadow-black/5 border border-gray-100">
-            <div class="text-center mb-6">
-                <h2 class="text-xl font-bold text-gray-900">Daftar Akun Baru</h2>
-                <p class="text-xs text-gray-500 mt-1">Bergabunglah dengan platform digital organisasi</p>
+        <form method="POST" action="{{ route('register') }}" class="auth-form__fields">
+            @csrf
+
+            <div class="auth-field">
+                <label class="ui-label" for="name">Nama lengkap</label>
+                <input class="ui-control" id="name" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" placeholder="Nama lengkap Anda" @error('name') aria-invalid="true" @enderror>
+                @error('name')
+                    <p class="ui-error">{{ $message }}</p>
+                @enderror
             </div>
 
-            <form method="POST" action="{{ route('register') }}">
-                @csrf
+            <div class="auth-field">
+                <label class="ui-label" for="email">Email</label>
+                <input class="ui-control" id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="nama@email.com" @error('email') aria-invalid="true" @enderror>
+                @error('email')
+                    <p class="ui-error">{{ $message }}</p>
+                @enderror
+            </div>
 
-                <div class="mb-4">
-                    <label class="block font-medium text-sm text-gray-700 mb-1">Nama Lengkap</label>
-                    <input type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" class="w-full border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl shadow-sm px-4 py-2.5 border text-sm" placeholder="Nama lengkap Anda">
-                    @error('name')
-                        <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
-                    @enderror
+            <div class="auth-field">
+                <label class="ui-label" for="roleSelect">Daftar sebagai</label>
+                <select class="ui-control" name="role" id="roleSelect" data-role-select @error('role') aria-invalid="true" @enderror>
+                    <option value="anggota" {{ old('role') === 'anggota' ? 'selected' : '' }}>Anggota</option>
+                    <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
+                </select>
+                @error('role')
+                    <p class="ui-error">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="auth-field" id="adminCodeWrapper" @if (old('role') !== 'admin') hidden @endif>
+                <label class="ui-label" for="admin_secret_code">Password khusus admin</label>
+                <input class="ui-control" id="admin_secret_code" type="password" name="admin_secret_code" autocomplete="off" placeholder="Masukkan kode rahasia admin" @error('admin_secret_code') aria-invalid="true" @enderror>
+                @error('admin_secret_code')
+                    <p class="ui-error">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="auth-field">
+                <label class="ui-label" for="passwordInput">Password</label>
+                <div class="auth-password-field">
+                    <input class="ui-control" type="password" name="password" id="passwordInput" required autocomplete="new-password" placeholder="Minimal 8 karakter" @error('password') aria-invalid="true" @enderror>
+                    <button class="auth-password-toggle" type="button" data-password-toggle aria-controls="passwordInput" aria-pressed="false">Tampilkan</button>
                 </div>
+                @error('password')
+                    <p class="ui-error">{{ $message }}</p>
+                @enderror
+            </div>
 
-                <div class="mb-4">
-                    <label class="block font-medium text-sm text-gray-700 mb-1">Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}" required autocomplete="username" class="w-full border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl shadow-sm px-4 py-2.5 border text-sm" placeholder="nama@email.com">
-                    @error('email')
-                        <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
-                    @enderror
-                </div>
+            <div class="auth-field">
+                <label class="ui-label" for="password_confirmation">Konfirmasi password</label>
+                <input class="ui-control" id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Ulangi password" @error('password_confirmation') aria-invalid="true" @enderror>
+                @error('password_confirmation')
+                    <p class="ui-error">{{ $message }}</p>
+                @enderror
+            </div>
 
-                <div class="mb-4">
-                    <label class="block font-medium text-sm text-gray-700 mb-1">Daftar Sebagai</label>
-                    <select name="role" id="roleSelect" onchange="toggleAdminCode()" class="w-full border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl shadow-sm px-4 py-2.5 border text-sm bg-white">
-                        <option value="anggota" {{ old('role') == 'anggota' ? 'selected' : '' }}>Anggota</option>
-                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                    </select>
-                    @error('role')
-                        <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
-                    @enderror
-                </div>
+            <button class="btn btn--primary btn--pill btn--lg auth-form__submit" type="submit">Daftar akun baru</button>
+        </form>
 
-                <div class="mb-4 {{ old('role') == 'admin' ? '' : 'hidden' }}" id="adminCodeWrapper">
-                    <label class="block font-medium text-sm text-gray-700 mb-1">Password Khusus Admin</label>
-                    <input type="password" name="admin_secret_code" placeholder="Masukkan kode rahasia admin" class="w-full border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl shadow-sm px-4 py-2.5 border text-sm">
-                    @error('admin_secret_code')
-                        <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label class="block font-medium text-sm text-gray-700 mb-1">Password</label>
-                    <div class="relative">
-                        <input type="password" name="password" id="passwordInput" required autocomplete="new-password" class="w-full border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl shadow-sm px-4 py-2.5 border text-sm pr-16" placeholder="Minimal 8 karakter">
-                        <button type="button" onclick="togglePassword()" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500 hover:text-gray-700 font-medium">Tampilkan</button>
-                    </div>
-                    @error('password')
-                        <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="mb-6">
-                    <label class="block font-medium text-sm text-gray-700 mb-1">Konfirmasi Password</label>
-                    <input type="password" name="password_confirmation" required autocomplete="new-password" class="w-full border-gray-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-xl shadow-sm px-4 py-2.5 border text-sm" placeholder="Ulangi password">
-                    @error('password_confirmation')
-                        <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <button type="submit" class="w-full bg-[#087A4B] hover:bg-[#065C39] text-white font-bold py-3 px-4 rounded-xl shadow-lg transition duration-200 text-sm">
-                    Daftar Akun Baru
-                </button>
-
-                <div class="text-center mt-6">
-                    <p class="text-xs text-gray-500">Sudah memiliki akun? <a href="{{ route('login') }}" class="text-[#087A4B] hover:underline font-semibold">Masuk di sini</a></p>
-                </div>
-            </form>
-        </div>
+        <p class="auth-form__footnote">Sudah memiliki akun? <a href="{{ route('login') }}">Masuk di sini</a></p>
     </div>
-
-    <script>
-        function toggleAdminCode() {
-            const role = document.getElementById('roleSelect').value;
-            const wrapper = document.getElementById('adminCodeWrapper');
-            if (role === 'admin') {
-                wrapper.classList.remove('hidden');
-            } else {
-                wrapper.classList.add('hidden');
-            }
-        }
-
-        function togglePassword() {
-            const input = document.getElementById('passwordInput');
-            if (input.type === 'password') {
-                input.type = 'text';
-            } else {
-                input.type = 'password';
-            }
-        }
-    </script>
-</body>
-</html>
+</x-guest-layout>

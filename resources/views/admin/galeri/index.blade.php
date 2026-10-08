@@ -22,7 +22,7 @@
 
         <!-- Alert Success -->
         @if (session('success'))
-            <div class="bg-emerald-50 border border-emerald-200/80 text-[#087A4B] px-6 py-4 rounded-3xl shadow-sm flex items-center gap-3">
+            <div class="flash-message anim-fade-down bg-emerald-50 border border-emerald-200/80 text-[#087A4B] px-6 py-4 rounded-3xl shadow-sm flex items-center gap-3" data-flash-message role="status">
                 <div class="w-8 h-8 rounded-2xl bg-emerald-100 flex items-center justify-center shrink-0">
                     <svg class="w-5 h-5 text-[#087A4B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
@@ -31,6 +31,12 @@
                 <span class="font-bold text-sm">{{ session('success') }}</span>
             </div>
         @endif
+
+        <form action="{{ route('admin.galeri.index') }}" method="GET" class="admin-gallery-search" role="search">
+            <label class="sr-only" for="gallery-search">Cari judul atau kategori galeri</label>
+            <input class="ui-control" id="gallery-search" type="search" name="q" value="{{ request('q', request('search')) }}" placeholder="Cari judul atau kategori…">
+            <button class="btn btn--primary" type="submit">Cari galeri</button>
+        </form>
 
         <!-- Grid Galeri -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -53,7 +59,7 @@
                         </div>
                         <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
                             <a href="{{ route('admin.galeri.edit', $galeri->id) }}" class="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-[#087A4B] font-bold text-xs rounded-xl transition">Edit</a>
-                            <form action="{{ route('admin.galeri.destroy', $galeri->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus foto ini?');">
+                            <form action="{{ route('admin.galeri.destroy', $galeri->id) }}" method="POST" class="inline" data-confirm-delete data-confirm-message="Foto galeri ini akan dihapus secara permanen.">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="px-3.5 py-2 bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs rounded-xl transition">Hapus</button>

@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.app')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Anggota - NU Sawangan</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
+@section('title', 'Anggota NU Sawangan')
 
-<body class="public-site flex min-h-screen flex-col overflow-x-hidden bg-slate-50 font-sans text-gray-900 antialiased">
-    @include('layouts.public-navigation')
-
-    <main class="public-page-shell flex-grow">
+@section('content')
+    <section class="public-page-shell">
         <div class="public-page-header reveal">
             <div>
                 <span class="text-xs font-bold uppercase tracking-[0.16em] text-[#087A4B]">Modul Keanggotaan</span>
@@ -69,8 +61,5 @@
         @if ($anggotas->hasPages())
             <div class="mt-8">{{ $anggotas->links() }}</div>
         @endif
-    </main>
-    @include('layouts.public-footer')
-</body>
-
-</html>
+    </section>
+@endsection

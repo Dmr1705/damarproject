@@ -26,7 +26,7 @@
 
         <!-- Alert Success -->
         @if (session('success'))
-            <div class="bg-emerald-50 border border-emerald-200/80 text-[#087A4B] px-6 py-4 rounded-3xl shadow-sm flex items-center gap-3">
+            <div class="flash-message anim-fade-down bg-emerald-50 border border-emerald-200/80 text-[#087A4B] px-6 py-4 rounded-3xl shadow-sm flex items-center gap-3" data-flash-message role="status">
                 <div class="w-8 h-8 rounded-2xl bg-emerald-100 flex items-center justify-center shrink-0">
                     <svg class="w-5 h-5 text-[#087A4B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
@@ -43,7 +43,7 @@
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                         <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama, role (banom), atau wilayah..." class="w-full pl-10 pr-4 py-3 bg-slate-50/60 border border-slate-200/80 focus:bg-white focus:border-[#087A4B] focus:ring-2 focus:ring-emerald-500/20 rounded-2xl text-sm transition-all text-slate-800 outline-none placeholder:text-slate-400 font-bold">
+                    <input type="text" name="search" value="{{ request('search', request('q')) }}" placeholder="Cari nama, role (banom), atau wilayah..." class="w-full pl-10 pr-4 py-3 bg-slate-50/60 border border-slate-200/80 focus:bg-white focus:border-[#087A4B] focus:ring-2 focus:ring-emerald-500/20 rounded-2xl text-sm transition-all text-slate-800 outline-none placeholder:text-slate-400 font-bold">
                 </div>
                 
                 <select name="status" class="px-4 py-3 bg-slate-50/60 border border-slate-200/80 focus:bg-white focus:border-[#087A4B] focus:ring-2 focus:ring-emerald-500/20 rounded-2xl text-sm font-bold text-slate-700 sm:w-48 cursor-pointer outline-none transition-all">
@@ -137,7 +137,7 @@
                                     <div class="flex items-center justify-end gap-2">
                                         <a href="{{ route('admin.anggota.card', $anggota) }}" class="px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition shadow-sm">Cetak Kartu</a>
                                         <a href="{{ route('admin.anggota.edit', $anggota->id) }}" class="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-[#087A4B] font-bold text-xs rounded-xl transition shadow-sm">Edit</a>
-                                        <form action="{{ route('admin.anggota.destroy', $anggota->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus data anggota ini?');">
+                                        <form action="{{ route('admin.anggota.destroy', $anggota->id) }}" method="POST" class="inline" data-confirm-delete data-confirm-message="Data anggota ini akan dihapus secara permanen.">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="px-3.5 py-2 bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs rounded-xl transition shadow-sm">Hapus</button>

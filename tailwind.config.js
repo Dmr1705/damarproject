@@ -12,8 +12,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Fraunces', 'Georgia', 'serif'],
-                serif: ['Fraunces', ...defaultTheme.fontFamily.serif],
+                sans: ['Plus Jakarta Sans', 'Segoe UI', 'sans-serif'],
+                serif: ['Plus Jakarta Sans', ...defaultTheme.fontFamily.serif],
             },
         },
     },

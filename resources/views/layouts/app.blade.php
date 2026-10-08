@@ -5,28 +5,35 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>@yield('title', config('app.name', 'NU Sawangan'))</title>
 
-        <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/animations.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/landing.css') }}">
+        <script src="{{ asset('js/landing.js') }}" defer></script>
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+    <body class="public-site">
+        <a class="skip-link" href="#main-content">Langsung ke konten utama</a>
+        @include('partials.navbar')
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        @isset($header)
+            <header class="public-page-shell public-page-header">
+                <div>
                         {{ $header }}
-                    </div>
-                </header>
-            @endisset
+                </div>
+            </header>
+        @endisset
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
+        <main id="main-content">
+            @hasSection('content')
+                @yield('content')
+            @else
+                @isset($slot)
+                    {{ $slot }}
+                @endisset
+            @endif
             </main>
-        </div>
+        @include('partials.footer')
     </body>
 </html>

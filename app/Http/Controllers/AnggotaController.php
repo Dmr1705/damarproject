@@ -44,8 +44,8 @@ class AnggotaController extends Controller
         $query = Anggota::query();
 
         // Fitur Pencarian (disesuaikan ke role)
-        if ($request->filled('search')) {
-            $search = $request->search;
+        $search = $request->query('q', $request->query('search'));
+        if (filled($search)) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                     ->orWhere('position', 'like', "%{$search}%")

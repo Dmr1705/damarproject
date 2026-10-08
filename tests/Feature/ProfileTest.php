@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Anggota;
+use App\Models\Berita;
+use App\Models\Galeri;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -14,26 +17,77 @@ test('profile page is displayed', function () {
     $response->assertOk();
 });
 
-test('dashboard displays the authenticated account information', function () {
-    $user = User::factory()->create([
-        'name' => 'Akun Dinamis',
-        'email' => 'dinamis@example.com',
-        'role' => User::ROLE_ANGGOTA,
+test('admin profile has a return link to the admin dashboard', function () {
+    $admin = User::factory()->create(['role' => User::ROLE_ADMIN]);
+
+    $this->actingAs($admin)
+        ->get(route('profile.edit'))
+        ->assertSee('Kembali ke Dashboard')
+        ->assertSee(route('admin.dashboard'), false)
+        ->assertSee('Pengaturan Akun')
+        ->assertSee('Ringkasan akun')
+        ->assertSee('Simpan Perubahan');
+});
+
+test('member profile returns to their dashboard instead of the admin dashboard', function () {
+    $member = User::factory()->create(['role' => User::ROLE_ANGGOTA]);
+
+    $this->actingAs($member)
+        ->get(route('profile.edit'))
+        ->assertSee('Kembali ke Dashboard')
+        ->assertDontSee('Kembali ke Dashboard Admin');
+});
+
+test('admin dashboard summarizes content and recent activity', function () {
+    $admin = User::factory()->create(['role' => User::ROLE_ADMIN]);
+    $publishedNews = Berita::query()->create([
+        'title' => 'Berita bulan ini',
+        'content' => 'Isi berita untuk statistik dashboard.',
+        'status' => 'published',
+        'author_id' => $admin->id,
+        'created_at' => now()->startOfMonth()->addDay(),
+    ]);
+    Anggota::query()->create([
+        'name' => 'Anggota terbaru',
+        'position' => 'Pengurus',
+        'status' => 'Aktif',
+        'created_at' => now()->startOfMonth()->addDay(),
+    ]);
+    Galeri::query()->create([
+        'title' => 'Pengajian terbaru',
+        'photo' => 'galeri/pengajian.jpg',
+        'created_at' => now()->startOfMonth()->addDay(),
     ]);
 
     $response = $this
-        ->actingAs($user)
-        ->get('/dashboard');
+        ->actingAs($admin)
+        ->get(route('admin.dashboard'));
 
     $response
-        ->assertOk()
-        ->assertSee('Akun Dinamis')
-        ->assertSee('dinamis@example.com')
-        ->assertSee('ANGGOTA')
-        ->assertSee('name="profile_photo"', false)
-        ->assertSee('active:scale-95', false)
-        ->assertSee('name="_method" value="PATCH"', false)
-        ->assertDontSee('charlydwisaputra77@gmail.com');
+        ->assertSee('Assalamu')
+        ->assertSee('Aktivitas 6 Bulan Terakhir')
+        ->assertSee('Berita bulan ini')
+        ->assertSee('Anggota terbaru')
+        ->assertSee('Pengajian terbaru')
+        ->assertDontSee('name="profile_photo"', false)
+        ->assertDontSee('update_password_current_password', false)
+        ->assertViewHas('totalBerita', 1)
+        ->assertViewHas('totalAnggota', 1)
+        ->assertViewHas('totalGaleri', 1)
+        ->assertViewHas('newsThisMonth', 1)
+        ->assertViewHas('recentBerita', fn ($news) => $news->first()->is($publishedNews))
+        ->assertViewHas('activityMonths', fn ($months) => $months->last()['berita'] === 1);
+});
+
+test('admin dashboard shows helpful empty states when there is no content', function () {
+    $admin = User::factory()->create(['role' => User::ROLE_ADMIN]);
+
+    $this->actingAs($admin)
+        ->get(route('admin.dashboard'))
+        ->assertSee('Belum ada berita')
+        ->assertSee('Belum ada anggota')
+        ->assertSee('Belum ada dokumentasi galeri')
+        ->assertSee('Belum ada aktivitas untuk ditampilkan');
 });
 
 test('public navigation displays the signed-in user profile photo', function () {

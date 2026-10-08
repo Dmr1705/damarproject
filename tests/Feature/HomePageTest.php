@@ -21,8 +21,8 @@ test('homepage presents public information and published news only', function ()
     ]);
 
     $this->get(route('home'))
-        ->assertSee('Satu ruang untuk')
-        ->assertSee('Lihat direktori anggota')
+        ->assertSee('Menjaga Tradisi,')
+        ->assertSee('Lihat direktori')
         ->assertSee('Berita yang diterbitkan')
         ->assertDontSee('Berita draf');
 });

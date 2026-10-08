@@ -1,55 +1,42 @@
-<section class="space-y-6">
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Delete Account') }}
-        </h2>
+<header class="profile-form-heading">
+    <h2>Akun</h2>
+    <p>Penghapusan akun bersifat permanen. Pastikan informasi yang diperlukan telah disimpan.</p>
+</header>
 
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
-        </p>
-    </header>
+<div class="profile-danger-copy">
+    <span class="profile-danger-copy__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 9v4m0 4h.01M10.3 3.9 2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3l-7.8-14.1a2 2 0 0 0-3.4 0Z"></path></svg>
+    </span>
+    <p>Data akun dan foto profil yang tersimpan akan dihapus secara permanen.</p>
+</div>
 
-    <x-danger-button
-        x-data=""
-        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-    >{{ __('Delete Account') }}</x-danger-button>
+<button class="btn btn--danger" type="button" data-open-delete-dialog>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 6h18M8 6V4h8v2m3 0-1 14H6L5 6m4 4v6m6-6v6"></path></svg>
+    Hapus Akun
+</button>
 
-    <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
-            @csrf
-            @method('delete')
+<dialog class="profile-delete-dialog" aria-labelledby="profile-delete-dialog-title" aria-describedby="profile-delete-dialog-description" data-profile-delete-dialog data-open-on-load="{{ $errors->userDeletion->isNotEmpty() ? 'true' : 'false' }}">
+    <form method="post" action="{{ route('profile.destroy') }}" class="profile-delete-dialog__form">
+        @csrf
+        @method('delete')
 
-            <h2 class="text-lg font-medium text-gray-900">
-                {{ __('Are you sure you want to delete your account?') }}
-            </h2>
+        <span class="profile-delete-dialog__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 9v4m0 4h.01M10.3 3.9 2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3l-7.8-14.1a2 2 0 0 0-3.4 0Z"></path></svg>
+        </span>
+        <h2 id="profile-delete-dialog-title">Hapus akun secara permanen?</h2>
+        <p id="profile-delete-dialog-description">Masukkan kata sandi saat ini untuk mengonfirmasi. Tindakan ini tidak dapat dibatalkan.</p>
 
-            <p class="mt-1 text-sm text-gray-600">
-                {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
-            </p>
+        <div class="profile-form__field">
+            <label class="ui-label" for="delete_account_password">Kata sandi saat ini</label>
+            <input class="ui-control" id="delete_account_password" name="password" type="password" autocomplete="current-password" required aria-invalid="{{ $errors->userDeletion->has('password') ? 'true' : 'false' }}" aria-describedby="{{ $errors->userDeletion->has('password') ? 'delete-account-password-error' : '' }}">
+            @error('password', 'userDeletion')
+                <p class="ui-error" id="delete-account-password-error">{{ $message }}</p>
+            @enderror
+        </div>
 
-            <div class="mt-6">
-                <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
-
-                <x-text-input
-                    id="password"
-                    name="password"
-                    type="password"
-                    class="mt-1 block w-3/4"
-                    placeholder="{{ __('Password') }}"
-                />
-
-                <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
-            </div>
-
-            <div class="mt-6 flex justify-end">
-                <x-secondary-button x-on:click="$dispatch('close')">
-                    {{ __('Cancel') }}
-                </x-secondary-button>
-
-                <x-danger-button class="ms-3">
-                    {{ __('Delete Account') }}
-                </x-danger-button>
-            </div>
-        </form>
-    </x-modal>
-</section>
+        <div class="profile-delete-dialog__actions">
+            <button class="btn btn--outline" type="button" data-close-delete-dialog>Batal</button>
+            <button class="btn btn--danger" type="submit">Konfirmasi Hapus Akun</button>
+        </div>
+    </form>
+</dialog>

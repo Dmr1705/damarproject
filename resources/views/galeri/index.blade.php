@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.app')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Galeri Kegiatan - NU Sawangan</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
+@section('title', 'Galeri Kegiatan · NU Sawangan')
 
-<body class="public-site flex min-h-screen flex-col overflow-x-hidden bg-slate-50 font-sans text-gray-900 antialiased">
-    @include('layouts.public-navigation')
-
-    <main class="public-page-shell flex-grow">
+@section('content')
+    <section class="public-page-shell">
         <div class="public-page-header reveal md:flex md:items-end md:justify-between md:gap-8">
             <div>
                 <span class="text-xs font-bold uppercase tracking-[0.16em] text-[#087A4B]">Dokumentasi</span>
@@ -83,10 +75,5 @@
             </div>
             @endforelse
         </div>
-    </main>
-
-    @include('layouts.public-footer')
-
-</body>
-
-</html>
+    </section>
+@endsection

@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('layouts.app')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{ \Illuminate\Support\Str::limit(strip_tags($berita->content), 155) }}">
-    <meta name="theme-color" content="#f7f8f3">
-    <title>{{ $berita->title }} | NU Sawangan</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
+@section('title', $berita->title.' · NU Sawangan')
 
-<body class="public-site flex min-h-screen flex-col overflow-x-hidden bg-slate-50 font-sans text-gray-900 antialiased">
-    @include('layouts.public-navigation')
-
-    <main class="public-page-shell flex-grow">
+@section('content')
+    <section class="public-page-shell">
         <article class="reveal mx-auto max-w-4xl">
             <a href="{{ route('berita.index') }}" class="mb-7 inline-flex items-center gap-2 text-sm font-bold text-[#087A4B] transition hover:gap-3">
                 <span aria-hidden="true">←</span> Kembali ke berita
@@ -36,9 +26,5 @@
                 </div>
             </div>
         </article>
-    </main>
-
-    @include('layouts.public-footer')
-</body>
-
-</html>
+    </section>
+@endsection

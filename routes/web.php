@@ -1,13 +1,16 @@
 <?php
 
+use App\Http\Controllers\AdminNotificationController;
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\BeritaController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GaleriController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use App\Models\Anggota;
 use App\Models\Berita;
 use App\Models\Galeri;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +31,9 @@ Route::get('/', function () {
 
     return view('welcome', compact('beritas', 'stats'));
 })->name('home');
+
+Route::get('/search', [SearchController::class, 'index'])->name('search');
+Route::get('/notifikasi/berita', [NotificationController::class, 'news'])->name('notifications.news');
 
 // 2. Halaman Galeri Publik
 Route::get('/galeri', [GaleriController::class, 'publicIndex'])->name('galeri');
@@ -50,17 +56,15 @@ Route::get('/berita/detail/{id}', function ($id) {
 })->name('berita.show');
 
 // Halaman Dashboard Bawaan
-Route::get('/dashboard', function () {
-    $user = Auth::user()->load('profilAnggota');
-
-    return view('dashboard', [
-        'user' => $user,
-        'anggota' => $user->profilAnggota,
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 // Rute yang Memerlukan Login
 Route::middleware('auth')->group(function () {
+    Route::get('/admin/notifikasi', [AdminNotificationController::class, 'index'])->name('admin.notifications.index');
+    Route::post('/admin/notifikasi/{id}/baca', [AdminNotificationController::class, 'read'])->name('admin.notifications.read');
+    Route::post('/admin/notifikasi/baca-semua', [AdminNotificationController::class, 'readAll'])->name('admin.notifications.read-all');
 
     // Rute Profile (Bawaan Breeze)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -75,14 +79,7 @@ Route::middleware('auth')->group(function () {
     // KUMPULAN RUTE ADMIN
     // ====================================================================
 
-    Route::get('/admin/dashboard', function () {
-        $user = Auth::user()->load('profilAnggota');
-
-        return view('dashboard', [
-            'user' => $user,
-            'anggota' => $user->profilAnggota,
-        ]);
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     // Admin Berita
     Route::get('/admin/berita', [BeritaController::class, 'index'])->name('admin.berita.index');
