@@ -1230,6 +1230,18 @@ img {
     gap: 0.5rem;
 }
 
+.social-note__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: inherit;
+    transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.social-note__link:hover {
+    transform: translateY(-2px);
+}
+
 .social-note__icons svg {
     width: 1rem;
     height: 1rem;
@@ -1238,6 +1250,17 @@ img {
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-width: 1.5;
+    transition: stroke 180ms ease;
+}
+
+.social-note__link:hover svg {
+    stroke: var(--white);
+}
+
+.social-note__link:focus-visible {
+    outline: 2px solid var(--white);
+    outline-offset: 3px;
+    border-radius: 4px;
 }
 
 .site-footer__column {

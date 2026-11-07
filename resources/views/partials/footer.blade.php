@@ -10,12 +10,18 @@
             </a>
             <p>Ruang informasi publik untuk mengenal kabar, anggota, dan dokumentasi kegiatan NU Sawangan.</p>
             <div class="social-note">
-                <span class="social-note__icons" aria-hidden="true">
-                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.7" r=".7"></circle></svg>
-                    <svg viewBox="0 0 24 24"><path d="M14 21v-8h3l.5-3H14V8c0-.9.3-1.5 1.6-1.5h2V3.8c-.4-.1-1.5-.2-2.8-.2-2.8 0-4.7 1.7-4.7 4.9V10H7v3h3.1v8"></path></svg>
-                    <svg viewBox="0 0 24 24"><path d="M21 7.2a3 3 0 0 0-2.1-2.1C17 4.6 12 4.6 12 4.6s-5 0-6.9.5A3 3 0 0 0 3 7.2 31 31 0 0 0 2.5 12 31 31 0 0 0 3 16.8a3 3 0 0 0 2.1 2.1c1.9.5 6.9.5 6.9.5s5 0 6.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8Z"></path><path d="m10 15.2 4.8-3.2L10 8.8z"></path></svg>
-                </span>
-                <span>Kanal sosial resmi akan ditautkan di sini.</span>
+                <div class="social-note__icons">
+                    <a class="social-note__link" href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.7" r=".7"></circle></svg>
+                    </a>
+                    <a class="social-note__link" href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 21v-8h3l.5-3H14V8c0-.9.3-1.5 1.6-1.5h2V3.8c-.4-.1-1.5-.2-2.8-.2-2.8 0-4.7 1.7-4.7 4.9V10H7v3h3.1v8"></path></svg>
+                    </a>
+                    <a class="social-note__link" href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 7.2a3 3 0 0 0-2.1-2.1C17 4.6 12 4.6 12 4.6s-5 0-6.9.5A3 3 0 0 0 3 7.2 31 31 0 0 0 2.5 12 31 31 0 0 0 3 16.8a3 3 0 0 0 2.1 2.1c1.9.5 6.9.5 6.9.5s5 0 6.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8Z"></path><path d="m10 15.2 4.8-3.2L10 8.8z"></path></svg>
+                    </a>
+                </div>
+                <span>Kanal sosial resmi</span>
             </div>
         </div>
 

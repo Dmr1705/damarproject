@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Panel Admin · NU Sawangan')</title>
+    <title>@yield('title', 'Panel · NU Sawangan')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/theme.css') }}">
     <link rel="stylesheet" href="{{ asset('css/animations.css') }}">
@@ -38,7 +38,7 @@
             <div class="admin-brand">
                 <img src="{{ config('images.logo') }}" alt="" width="42" height="42" onerror="this.onerror=null;this.hidden=true">
                 <span class="admin-brand__text">
-                    <span class="admin-brand__title">Panel Admin</span>
+                    <span class="admin-brand__title">Panel</span>
                     <span class="admin-brand__caption">NU Sawangan</span>
                 </span>
                 <button class="admin-mobile-close" type="button" data-admin-close aria-label="Tutup menu admin">

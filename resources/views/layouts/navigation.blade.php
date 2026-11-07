@@ -50,7 +50,7 @@
 
                         <div class="mt-6">
                             <a href="{{ route('admin.berita.index') }}" class="w-full py-3.5 bg-[#087A4B] hover:bg-emerald-700 text-white font-bold text-xs rounded-2xl shadow-md shadow-emerald-500/20 transition flex items-center justify-center gap-2">
-                                Kelola Panel Admin
+                                Kelola Panel
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                             </a>
                         </div>
