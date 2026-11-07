@@ -8,7 +8,7 @@
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Status: Aktif (Admin)
                 </div>
                 <h1 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">Dashboard Pengguna</h1>
-                <p class="text-sm text-slate-500 mt-1">Kelola informasi profil, keamanan akun, serta preferensi Anda di ekosistem DIGDAYA NU.</p>
+                <p class="text-sm text-slate-500 mt-1">Kelola informasi profil, keamanan akun, serta preferensi Anda di ekosistem NU Sawangan.</p>
             </div>
             <div class="flex items-center gap-3">
                 <a href="{{ route('admin.berita.index') }}" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-2xl transition shadow-sm">

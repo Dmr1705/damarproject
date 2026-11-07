@@ -97,7 +97,7 @@ a {
 }
 
 .btn--primary:hover {
-    background: var(--green-950);
+    background: var(--green-900);
 }
 
 .btn--secondary {
@@ -701,7 +701,9 @@ a {
 }
 
 .hover\:bg-\[\#065C39\]:hover,
-.hover\:bg-emerald-700:hover {
+.hover\:bg-emerald-700:hover,
+.hover\:bg-slate-800:hover,
+.hover\:bg-gray-800:hover {
     background-color: var(--green-950) !important;
 }
 

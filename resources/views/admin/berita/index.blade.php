@@ -9,7 +9,7 @@
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Modul Publikasi
                 </div>
                 <h1 class="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">Data Berita</h1>
-                <p class="text-sm text-slate-500 mt-1">Kelola artikel, informasi, dan publikasi website DIGDAYA NU.</p>
+                <p class="text-sm text-slate-500 mt-1">Kelola artikel, informasi, dan publikasi website NU Sawangan.</p>
             </div>
             <div class="flex items-center gap-3">
                 <a href="{{ route('admin.berita.create') }}" class="inline-flex items-center gap-2 px-5 py-3 bg-[#087A4B] hover:bg-emerald-700 text-white font-bold text-xs rounded-2xl shadow-md shadow-emerald-500/20 transition-all active:scale-95">

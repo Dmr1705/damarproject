@@ -65,10 +65,10 @@
 
                 <!-- Tanggal Bergabung -->
                 <div>
-                    <label for="joined_at" class="block text-sm font-medium text-[#17211B] mb-1">Tanggal Bergabung</label>
-                    <input type="date" name="joined_at" id="joined_at" value="{{ old('joined_at') }}"
+                    <label for="joined_at" class="block text-sm font-medium text-[#17211B] mb-1">Tanggal Bergabung (Auto)</label>
+                    <input type="date" name="joined_at" id="joined_at" value="{{ now()->toDateString() }}" readonly
                         class="w-full border-[#E1E9E4] focus:border-[#087A4B] focus:ring-[#087A4B] rounded-md shadow-sm">
-                    @error('joined_at') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
+                    <p class="text-xs text-[#66736B] mt-1">Tanggal mengikuti saat data anggota disimpan.</p>
                 </div>
 
                 <!-- Visibilitas Publik -->

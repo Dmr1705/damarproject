@@ -4,6 +4,7 @@ use App\Models\Berita;
 use App\Models\User;
 use DOMDocument;
 use DOMXPath;
+use Illuminate\Support\Carbon;
 
 test('homepage presents public information and published news only', function () {
     $author = User::factory()->create();
@@ -47,6 +48,21 @@ test('public news pages do not expose draft articles', function () {
         ->assertDontSee($draft->title);
 
     $this->get(route('berita.show', $draft->id))->assertNotFound();
+});
+
+test('news detail displays its date in Indonesian', function () {
+    $this->travelTo(Carbon::parse('2026-10-19 09:00:00'));
+
+    $author = User::factory()->create();
+    $berita = Berita::create([
+        'title' => 'Kabar NU Sawangan',
+        'content' => 'Isi kabar.',
+        'status' => 'published',
+        'author_id' => $author->id,
+    ]);
+
+    $this->get(route('berita.show', $berita->id))
+        ->assertSee('Senin, 19 Oktober 2026');
 });
 
 test('public news cards keep their image and article details together inside the page', function () {

@@ -2,6 +2,7 @@
 
 use App\Models\Anggota;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 
 test('guest cannot access the member card', function () {
     $anggota = Anggota::create([
@@ -78,4 +79,34 @@ test('new member is linked to the authenticated account', function () {
     $response->assertRedirect(route('admin.anggota.index'));
     expect(Anggota::query()->where('name', 'Anggota Terhubung')->first()->user_id)
         ->toBe($user->id);
+});
+
+test('new member joining date matches the date the record is created', function () {
+    $this->travelTo(Carbon::parse('2026-11-06 09:00:00'));
+
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)->post(route('admin.anggota.store'), [
+        'name' => 'Anggota Bertanggal Otomatis',
+        'role' => 'IPNU',
+        'status' => 'Aktif',
+        'joined_at' => '2025-01-01',
+        'is_public' => '1',
+    ]);
+
+    $response->assertRedirect(route('admin.anggota.index'));
+    $this->assertDatabaseHas('anggota', [
+        'name' => 'Anggota Bertanggal Otomatis',
+        'joined_at' => '2026-11-06',
+    ]);
+});
+
+test('new member form displays the current date as the automatic joining date', function () {
+    $this->travelTo(Carbon::parse('2026-11-06 09:00:00'));
+
+    $response = $this->actingAs(User::factory()->create())
+        ->get(route('admin.anggota.create'));
+
+    $response->assertSee('value="2026-11-06" readonly', false)
+        ->assertSee('Tanggal mengikuti saat data anggota disimpan.');
 });

@@ -27,6 +27,21 @@ select {
     font-optical-sizing: auto;
 }
 
+.break-word-safe,
+.public-news-card h3,
+.public-news-card p,
+.hero-note h2,
+.hero-note p:not(.eyebrow),
+.prose,
+.public-page-header h1,
+.public-page-header p,
+.public-page-header time {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+}
+
 h1,
 h2,
 h3,

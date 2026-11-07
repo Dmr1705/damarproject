@@ -79,7 +79,6 @@ class AnggotaController extends Controller
             'role' => 'required|in:Muslimat,Fatayat,GP Ansor,IPNU,IPPNU,PMII',
             'wilayah' => 'nullable|string|max:255',
             'status' => 'required|in:Aktif,aktif,Nonaktif,nonaktif,Alumni,alumni,Pending,pending',
-            'joined_at' => 'nullable|date',
             'is_public' => 'required|boolean',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ], [
@@ -100,6 +99,7 @@ class AnggotaController extends Controller
         $validated['region'] = $validated['wilayah'] ?? null;
         unset($validated['role'], $validated['wilayah']);
         $validated['user_id'] = Auth::id();
+        $validated['joined_at'] = now()->toDateString();
 
         Anggota::create($validated);
 

@@ -287,8 +287,9 @@
     width: var(--sidebar-size);
     flex-direction: column;
     overflow: hidden;
-    color: var(--white);
-    background: var(--green-900);
+    border-right: 1px solid var(--line);
+    color: var(--ink);
+    background: var(--white);
     transition: width var(--transition-base), transform var(--transition-base);
 }
 
@@ -297,17 +298,21 @@
     min-height: 5.25rem;
     align-items: center;
     gap: 0.8rem;
-    border-bottom: 1px solid rgb(255 255 255 / 0.15);
+    border-bottom: 1px solid var(--line);
     padding: 0 1.25rem;
-    color: var(--white);
+    color: var(--ink);
 }
 
 .admin-brand img {
-    width: 2.6rem;
-    height: 2.6rem;
+    width: 3.1rem;
+    height: 3.1rem;
     flex: none;
+    border: 1px solid rgb(8 122 75 / 0.18);
     border-radius: 50%;
-    object-fit: cover;
+    padding: 0.2rem;
+    background: var(--green-50);
+    object-fit: contain;
+    box-shadow: 0 4px 12px rgb(8 43 33 / 0.1);
 }
 
 .admin-brand__title {
@@ -320,7 +325,7 @@
 .admin-brand__caption {
     display: block;
     margin-top: 0.2rem;
-    color: rgb(255 255 255 / 0.68);
+    color: var(--muted);
     font-size: 0.68rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -334,7 +339,7 @@
 
 .admin-nav-label {
     margin: 1rem 0.65rem 0.5rem;
-    color: rgb(255 255 255 / 0.56);
+    color: var(--muted);
     font-size: 0.68rem;
     font-weight: 800;
     letter-spacing: 0.1em;
@@ -350,7 +355,7 @@
     margin-block: 0.2rem;
     border-radius: 0.7rem;
     padding: 0.65rem 0.8rem;
-    color: rgb(255 255 255 / 0.78);
+    color: var(--muted);
     font-size: 0.86rem;
     font-weight: 650;
     transition: background-color var(--transition-fast), color var(--transition-fast);
@@ -364,8 +369,13 @@
 
 .admin-nav-link:hover,
 .admin-nav-link[aria-current="page"] {
+    color: var(--green-900);
+    background: var(--green-hover);
+}
+
+.admin-nav-link[aria-current="page"] {
     color: var(--white);
-    background: var(--green-700);
+    background: var(--green-900);
 }
 
 .admin-nav-link[aria-current="page"]::before {
@@ -378,7 +388,7 @@
 }
 
 .admin-sidebar__bottom {
-    border-top: 1px solid rgb(255 255 255 / 0.15);
+    border-top: 1px solid var(--line);
     padding: 0.85rem;
 }
 
@@ -391,7 +401,7 @@
     border: 0;
     border-radius: 0.7rem;
     padding: 0.7rem 0.8rem;
-    color: white;
+    color: var(--green-900);
     background: transparent;
     font: inherit;
     font-size: 0.86rem;
@@ -401,7 +411,7 @@
 }
 
 .admin-sidebar__bottom button:hover {
-    background: rgb(255 255 255 / 0.1);
+    background: var(--green-hover);
 }
 
 .admin-sidebar__bottom svg {
@@ -656,10 +666,14 @@ body.admin-drawer-open {
         height: 40px;
         margin-left: auto;
         place-items: center;
-        border: 1px solid rgb(255 255 255 / 0.24);
+        border: 1px solid var(--line);
         border-radius: 0.65rem;
-        color: var(--white);
+        color: var(--green-900);
         background: transparent;
+    }
+
+    .admin-mobile-close:hover {
+        background: var(--green-hover);
     }
 }
 
